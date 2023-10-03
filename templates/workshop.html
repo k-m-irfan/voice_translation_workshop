@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>indic voice translation</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      padding: 20px;
+    }
+    .head {
+      margin-bottom: 20px;
+      font-family: Arial, Helvetica, sans-serif;  
+      background: linear-gradient(90deg,#fa2323, #0e0a0a,rgb(239, 10, 10));    
+      box-shadow: 8px 6px  rgb(212, 215, 217);
+      color:white;
+      font-size: 2.875em;
+      }
+    .container {
+      max-width: 400px;
+      background-color: rgb(236, 236, 236);
+    }
+    .btn-group {
+      margin-bottom: 20px;
+    }
+    #status {
+      margin-bottom: 20px;
+      padding: 20px;
+    }
+    .border{
+      border-radius: 15px;
+    }
+    .scroll {
+      max-height: 500px;
+      overflow-y: auto;
+      /* border-radius:25px; */
+    }
+            
+    .scroll::-webkit-scrollbar{
+      width: 6px;
+      background-color: #F5F5F5;
+      
+    }
+
+    .scroll::-webkit-scrollbar-thumb{
+      background-color: rgb(255, 0, 0);
+    }
+    .translation-div {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      text-align: center;
+      margin: 0 auto;
+      background-color: #f1f1f1;
+    }
+    .translation-div p {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="container border ">
+    <br>
+    <center><b><p class="border head">Indic Speech Translation</p></b></center><br>
+    <div class="translation-div">
+      <p> This webapp template is provided as a part of empower workshop on "NLP FOR VISION AND SPEECH IMPAIRED"</p>
+    </div><br>
+    <div class="row">
+      <div class="col-3">
+        <img height = "150vh" width = "225vw" src="{{ url_for('static', filename='iitmrp.png') }}" alt="My Image" style="margin-left:1vw;">
+      </div>
+      <div class="col-6">
+        <div class="card text-center shadow-lg  rounded" style="width:100%;border:1px solid rgb(133, 131, 131);">
+          <div class="card-header" style="background-color:rgb(244, 210, 210)">
+            <label for="languageDropdown"><b>Select languages from a given set of options</b></label>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+    
+              <select class="form-control" id="languageDropdown" >
+                <option value="" hidden>Source language</option>
+                <option value="english">English</option>
+                <option value="hindi">Hindi हिंदी</option>
+                <option value="tamil">Tamil தமிழ்</option>
+                <!-- <option value="kannada">Kannada</option> -->
+                <!-- <option value="marathi">Marathi</option> -->
+                <!-- <option value="telugu">Telugu</option> -->
+                <!-- <option value="gujarati">Gujarati</option> -->
+              </select>
+            </div>
+            <div class="form-group">
+    
+            <select class="form-control" id="targetlanguageDropdown" >
+              <option value="" hidden>Target language</option>
+              <option value="assamese">Assamese অসমীয়া</option>
+              <option value="bengali">Bengali বাংলা</option>
+              <!-- <option value="bodo">Bodo</option> -->
+              <option value="english">English</option>
+              <option value="gujarati">Gujarati ગુજરાતી</option>
+              <option value="hindi">Hindi हिंदी</option>
+              <option value="kannada">Kannada ಕನ್ನಡ</option>
+              <option value="malayalam">Malayalam മലയാളം</option>
+              <!-- <option value="manipuri">Manipuri</option> -->
+              <option value="marathi">Marathi मराठी</option>
+              <option value="odia">Odia ଓଡିଆ</option>
+              <!-- <option value="punjabi">Punjabi</option> -->
+              <!-- <option value="rajasthani">Rajasthani</option> -->
+              <option value="tamil">Tamil தமிழ்</option>
+              <option value="telugu">Telugu తెలుగు</option>
+              <!-- <option value="urdu">Urdu</option> -->
+            </select>
+            </div>
+          </div>
+          <div class="card-footer text-muted " style="background-color:rgb(244, 210, 210);">
+            <button class="btn btn-primary" id="recordBtn" onclick="toggleRecording()" disabled>Push to Speak</button>
+    
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <img height = "150vh" width = "150vw" src="{{ url_for('static', filename='iitm.png') }}" alt="My Image" style="margin-left: 2vw;">
+      </div>
+    </div><br>
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col-8">
+        <div class="card m-2 shadow-lg  rounded" style="width:100%;border:1px solid rgb(133, 131, 131);">
+          <div class="card-header" style="background-color:rgb(244, 210, 210)">
+            <b>Response</b>
+          </div>
+          <div class="card-body scroll">
+            <blockquote class="blockquote mb-0">
+              <center><div id="status"></div>
+                <audio id="audio-player" controls autoplay></audio></center>
+            
+            </blockquote>
+          </div>
+        </div>
+      </div>
+      <div class="col-2"></div>
+    </div>
+     <div class="m-3"></div>
+  </div>
+  
+<!-- 
+  <script src="https://cdn.socket.io/4.3.1/socket.io.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
+</body>
+</html>
+
+<script src="https://cdn.socket.io/4.3.1/socket.io.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+  const dropdown1 = document.getElementById('languageDropdown');
+  const dropdown2 = document.getElementById('targetlanguageDropdown');
+  const recordBtn = document.getElementById('recordBtn');
+
+  dropdown1.addEventListener('change', toggleRecordingButton);
+  dropdown2.addEventListener('change', toggleRecordingButton);
+
+  function toggleRecordingButton() {
+    if (dropdown1.value && dropdown2.value) {
+      recordBtn.disabled = false;
+    } else {
+      recordBtn.disabled = true;
+    }
+  }
+
+
+    let mediaRecorder;
+    let chunks = [];
+    let selectedLanguage;
+    let selectedTargetLanguage;
+    const audioPlayer = document.getElementById('audio-player');
+    var recording = false;
+    let clientId; 
+    const socket = io();
+
+    // Emit unique ID to the server on connection
+    socket.on('connect', function() {
+        clientId = socket.id;
+        socket.emit('new_user', { id: clientId });
+        console.log("Connected with ID:", clientId);
+    });
+
+    socket.on('response', function(response) {
+      console.log(response);
+        $('#status').append('<p>' + response + '</p>');
+    });
+
+    function toggleRecording() {
+      if (recording) {
+        stopRecording();
+      } else {
+        startRecording();
+      }
+  
+      recording = !recording;
+      updateButton();
+    }
+  
+
+function startRecording() {
+
+  // Clear the previous recorded chunks
+  chunks = [];
+  $('#status').append('<p>' + "Recording Started......" + '</p>');
+  navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(function(stream) {
+      mediaRecorder = new MediaRecorder(stream);
+      mediaRecorder.start();
+
+      mediaRecorder.addEventListener("dataavailable", function(e) {
+        chunks.push(e.data);
+      });
+    })
+    .catch(function(err) {
+      console.log("Unable to access microphone: " + err);
+    });
+}
+
+
+async function stopRecording() {
+  // Create a Promise wrapper for the mediaRecorder.stop() method
+  const stopPromise = new Promise((resolve, reject) => {
+    mediaRecorder.onstop = resolve;
+    mediaRecorder.onerror = reject;
+    mediaRecorder.stop();
+  });
+
+  try {
+    // Await the resolution of the Promise
+    await stopPromise;
+    console.log("Recording stopped");
+    $('#status').append('<p>' + "Recording Stopped...." + '</p>');
+
+    // Check if there are any recorded audio chunks
+    if (chunks.length === 0) {
+      console.log("No recorded audio available.");
+      return;
+    }
+
+    // Do something with the recorded audio chunks
+    const blob = new Blob(chunks, { type: "audio/webm" });
+
+  const formData = new FormData();
+  formData.append("audio", blob);
+  formData.append("language", selectedLanguage);
+  formData.append("target_language", selectedTargetLanguage);
+  formData.append("clientId",clientId)
+  formData.append("gender","female")
+
+  fetch("/play_voice", {
+    method: "POST",
+    body: formData
+  })
+  .then(response => response.blob())
+  .then(blob => {
+      const audioURL = URL.createObjectURL(blob);
+      audioPlayer.src = audioURL;
+      audioPlayer.load();
+      audioPlayer.play();
+  })
+  .catch(function(error) {
+    console.error("Error sending audio: " + error);
+  });
+
+  } catch (error) {
+    console.error("Error stopping recording:", error);
+  }
+}
+
+document.getElementById("languageDropdown").addEventListener("change", function() {
+  selectedLanguage = this.value;
+});
+
+document.getElementById("targetlanguageDropdown").addEventListener("change", function() {
+    selectedTargetLanguage = this.value;
+  });
+
+  function updateButton() {
+    var button = document.getElementById("recordBtn");
+    if (recording) {
+      button.innerHTML = "Push to Stop";
+      button.className = "btn btn-danger";
+    } else {
+      button.innerHTML = "Push to Speak";
+      button.className = "btn btn-primary";
+    }
+  }
+
+</script>
