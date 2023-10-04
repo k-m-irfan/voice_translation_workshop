@@ -1,12 +1,12 @@
 """
-WORKSHOP ON NLP FOR VISION AND SPEECH IMPAIRED
+WORKSHOP ON NLP FOR VISION, HEARING AND SPEECH IMPAIRED
 
 INSTRUCTIONS:
     1. Populate the editable sections with required codes (marked by ==)
     2. Instructions are given under each section
-    3. Use the functions created during the titorial session to complete the task
+    3. Use the functions created during the tutorial session to complete the task
     4. Code for the webapp and server has been provided (marked by //), 
-        and do not make any changes in them. Otherswise the forntend 
+        and do not make any changes in them. Otherswise the frontend 
         app will not work as intended.
     5. If you have any queries you can reach out to any of the coordinators
 """
