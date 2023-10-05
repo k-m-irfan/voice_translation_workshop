@@ -155,7 +155,7 @@ def handle_disconnect():
 
 if __name__ == '__main__':
     ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
-    ssl_context.load_cert_chain('./certificate.pem','./key.pem')
+    ssl_context.load_cert_chain('./cert.pem','./key.pem')
     socketio.run(app,host='0.0.0.0', port=5000, debug=True, ssl_context=ssl_context)
     
 #///////////////////////////////////END OF CODE/////////////////////////////////////////////
